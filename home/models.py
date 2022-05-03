@@ -6,28 +6,29 @@ from django.forms import ModelForm, TextInput, Textarea
 
 
 class Setting(models.Model):
+    objects = None
     STATUS = (
-        ('True', 'Evet'),
-        ('False', 'Hayır'),
+        ('True', 'Yes'),
+        ('False', 'No'),
     )
 
     title = models.CharField(max_length=150)
     keywords = models.CharField(max_length=255)
     description = models.CharField(max_length=200)
     company = models.CharField(max_length=60)
-    adress = models.CharField(blank=True,max_length=150)
-    phone = models.CharField(blank=True,max_length=20)
-    fax = models.CharField(blank=True,max_length=20)
-    email = models.CharField(blank=True,max_length=60)
-    smtpserver = models.CharField(blank=True,max_length=30)
-    smtpemail = models.CharField(blank=True,max_length=30)
-    smtppassword = models.CharField(blank=True,max_length=10)
-    smtpport = models.CharField(blank=True,max_length=150)
-    icon = models.ImageField(blank=True,upload_to='images/')
-    facebook = models.CharField(blank=True,max_length=60)
-    instagram = models.CharField(blank=True,max_length=60)
-    twitter = models.CharField(blank=True,max_length=60)
-    aboutus = RichTextUploadingField(blank=True)
+    adress = models.CharField(blank=True, max_length=150)
+    phone = models.CharField(blank=True, max_length=20)
+    fax = models.CharField(blank=True, max_length=20)
+    email = models.CharField(blank=True, max_length=60)
+    smtpserver = models.CharField(blank=True, max_length=30)
+    smtpemail = models.CharField(blank=True, max_length=30)
+    smtppassword = models.CharField(blank=True, max_length=10)
+    smtpport = models.CharField(blank=True, max_length=150)
+    icon = models.ImageField(blank=True, upload_to='images/')
+    facebook = models.CharField(blank=True, max_length=60)
+    instagram = models.CharField(blank=True, max_length=60)
+    twitter = models.CharField(blank=True, max_length=60)
+    aboutus: RichTextUploadingField = RichTextUploadingField(blank=True)
     contact = RichTextUploadingField(blank=True)
     references = RichTextUploadingField(blank=True)
     status = models.CharField(max_length=10, choices=STATUS)
@@ -37,13 +38,14 @@ class Setting(models.Model):
     def __str__(self):
         return self.title
 
+
 class ContactFormMessage(models.Model):
     STATUS = (
         ('New', 'New'),
         ('Read', 'Read'),
         ('Closed', 'Closed'),
     )
-    name = models.CharField(blank=True,max_length=35)
+    name = models.CharField(blank=True, max_length=35)
     email = models.CharField(blank=True, max_length=60)
     subject = models.CharField(blank=True, max_length=60)
     message = models.CharField(blank=True, max_length=300)

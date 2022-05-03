@@ -9,8 +9,8 @@ from mptt.models import MPTTModel
 
 class Category(MPTTModel):
     STATUS = (
-        ('True', 'Evet'),
-        ('False', 'Hayır'),
+        ('True', 'Yes'),
+        ('False', 'No'),
     )
 
     title = models.CharField(max_length=150)
@@ -32,7 +32,7 @@ class Category(MPTTModel):
         while k is not None:
             full_path.append(k.title)
             k = k.parent
-        return ' --> '.join(full_path[::1])
+        return ' --> '.join(full_path[::-1])
 
     def image_tag(self):
         return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))
@@ -40,9 +40,10 @@ class Category(MPTTModel):
 
 
 class Product(models.Model):
+    objects = None
     STATUS = (
-        ('True', 'Evet'),
-        ('False', 'Hayır'),
+        ('True', 'Yes'),
+        ('False', 'No'),
     )
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
