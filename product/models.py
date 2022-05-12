@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
-from django.forms import ModelForm
+from django.forms import ModelForm, TextInput
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from ckeditor_uploader.fields import RichTextUploadingField
@@ -103,7 +103,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.CharField(max_length=60)
     comment = models.TextField(blank=True, max_length=250)
-    rate = models.IntegerField(blank=True)
+    rate = models.IntegerField(default=1)
     status = models.CharField(max_length=15, choices=STATUS, default='New')
     ip = models.CharField(blank=True, max_length=25)
     create_at = models.DateTimeField(auto_now_add=True)
@@ -117,3 +117,4 @@ class CommentForm(ModelForm):
     class Meta:
         model = Comment
         fields = ['subject', 'comment', 'rate']
+

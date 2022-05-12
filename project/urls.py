@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from home import views
+from order import views as OrderViews
 
 urlpatterns = [
     path('', include('home.urls')),
@@ -33,6 +34,7 @@ urlpatterns = [
     path('product/<int:id>/<slug:slug>', views.product_detail, name='product_detail'),
     path('search/', views.product_search, name='product_search'),
     path('search_auto/', views.product_search_auto, name='product_search_auto'),
+    path('shopcart/', OrderViews.shopcart, name='shopcart'),
 ]
 
 if settings.DEBUG:  # new

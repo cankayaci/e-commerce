@@ -99,9 +99,9 @@ def product_search(request):
 def product_search_auto(request):
     if request.is_ajax():
         q = request.GET.get('term', '')
-        product = Product.objects.filter(title__icontains=q)
+        products = Product.objects.filter(title__icontains=q)
         results = []
-        for rs in product:
+        for rs in products:
             product_json = {}
             product_json = rs.title
             results.append(product_json)
@@ -110,3 +110,5 @@ def product_search_auto(request):
         data = 'fail'
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
+
+

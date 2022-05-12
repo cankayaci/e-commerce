@@ -1,16 +1,18 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, request
 from django.shortcuts import render
 
-
 # Create your views here.
 from order.models import ShopCart, ShopCartForm
+from product.models import Category
 
 
 def index(request):
     return HttpResponse("Order Page")
 
 
+@login_required(login_url='/login')  # Check login
 def addtoshopcart(request, id):
     url = request.META.get('HTTP_REFERER')  # get last url
     current_user = request.user  # Access User Session information
@@ -24,7 +26,7 @@ def addtoshopcart(request, id):
     if request.method == 'POST':  # if there is a post
         form = ShopCartForm(request.POST)
         if form.is_valid():
-            if control == 1:  #Update shopcart
+            if control == 1:  # Update shopcart
                 data = ShopCart.objects.get(product_id=id)
                 data.quantity += form.cleaned_data['quantity']
                 data.save  # save data
@@ -53,3 +55,18 @@ def addtoshopcart(request, id):
         return HttpResponseRedirect(url)
 
 
+def shopcart(request):
+    category = Category.objects.all()
+    current_user = request.user
+    shopcart = ShopCart.objects.filter(user_id=current_user.id)
+    total = 0
+    for rs in shopcart:
+        total += rs.product.price * rs.quantity
+    context = {'category': category, 'shopcart': shopcart, 'total': total}
+    return render(request, 'shopcart_products.html', context)
+
+@login_required(login_url='/login')
+def deletefromcart(request, id):
+    ShopCart.objects.filter(id=id).delete()
+    messages.success(request, "The product has been deleted from the Shopcart.")
+    return HttpResponseRedirect("/shopcart")

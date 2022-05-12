@@ -17,8 +17,7 @@
 		<div class="container">
 			<ul class="breadcrumb">
 				<li><a href="#">Home</a></li>
-				<li><a href="#">Products</a></li>
-				<li><a href="/category/{{ product.category_id }}/{{ product.category.slug }}">{{ product.category }}</a></li>
+				<li><a href="/category/{{ product.category.id }}/{{ product.category.slug }}">{{ product.category.title }}</a></li>
 				<li class="active">{{ product.title }}</li>
 			</ul>
 		</div>
@@ -37,34 +36,31 @@
 						<div id="product-main-view">
 
 							<div class="product-view">
-								<img src="{{ product.image.url }}" alt="">
+								<img src="{{ product.image.url }}" alt="" style="height: 400px">
 							</div>
 							{% for rs in images %}
-							<div class="product-view">
-								<img src="{{ rs.image.url }}" alt="">
-							</div>
+								<div class="product-view">
+									<img src="{{ rs.image.url }}" alt="" style="height: 400px">
+								</div>
 							{% endfor %}
 
 						</div>
 						<div id="product-view">
 							<div class="product-view">
-								<img src="{{ product.image.url }}" alt="">
+								<img src="{{ product.image.url }}" alt="" style="height: 100px">
 							</div>
 							{% for rs in images %}
-							<div class="product-view">
-								<img src="{{ rs.image.url }}" alt="">
-							</div>
+								<div class="product-view">
+									<img src="{{ rs.image.url }}" alt="" style="height: 100px">
+								</div>
 							{% endfor %}
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="product-body">
-							<div class="product-label">
-								<span>New</span>
-								<span class="sale">-20%</span>
-							</div>
+
 							<h2 class="product-name">{{ product.title }}</h2>
-							<h3 class="product-price">{{ product.price }} <del class="product-old-price">{{ product.price }}</del></h3>
+							<h3 class="product-price">${{ product.price }}</h3>
 							<div>
 								<div class="product-rating">
 									<i class="fa fa-star"></i>
@@ -86,7 +82,7 @@
 										<span class="text-uppercase">Quantity : </span>
 										<input class="input" name="quantity" type="number" min="1" max="{{ product.amount }}" value="1">
 									</div>
-									<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+									<button type="submit" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
 								</form>
 
 								<div class="pull-right">
@@ -149,7 +145,6 @@
 													</div>
 												{% endfor %}
 											{% endif %}
-											<p>Your email address will not be published.</p>
 
 											<form class="review-form" action="/product/addcomment/{{ product.id }}" method="post">
 												{% csrf_token %}
@@ -181,14 +176,10 @@
 											</form>
 										</div>
 									</div>
-
-
-
 								</div>
 							</div>
 						</div>
 					</div>
-
 				</div>
 				<!-- /Product Details -->
 			</div>

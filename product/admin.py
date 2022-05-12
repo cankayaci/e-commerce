@@ -68,7 +68,7 @@ class CategoryAdmin2(DraggableMPTTAdmin):
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ['subject', 'comment', 'product', 'user', 'status']
+    list_display = ['subject', 'comment', 'product', 'user', 'status', 'create_at']
     list_filter = ['status']
     readonly_fields = ('subject', 'comment', 'product', 'user', 'ip', 'rate')
 
