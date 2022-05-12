@@ -4,10 +4,15 @@ from django.contrib import admin
 from home.models import Setting, ContactForm, ContactFormMessage
 
 
+class SettingAdmin(admin.ModelAdmin):
+    list_display = ['title', 'company', 'update_at', 'status']
+
+
 class ContactFormMessageAdmin(admin.ModelAdmin):
-    list_display = ['name', 'email', 'subject', 'message', 'note', 'status']
+    list_display = ['name', 'email', 'subject', 'message', 'note', 'status', 'update_at']
+    readonly_fields = ('name', 'subject', 'email', 'message', 'ip')
     list_filter = ['status']
 
 
 admin.site.register(ContactFormMessage, ContactFormMessageAdmin)
-admin.site.register(Setting)
+admin.site.register(Setting, SettingAdmin)

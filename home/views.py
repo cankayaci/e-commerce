@@ -1,3 +1,5 @@
+import json
+
 from ckeditor_uploader.forms import SearchForm
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
@@ -6,6 +8,9 @@ from django.shortcuts import render
 # Create your views here.
 from home.models import Setting, ContactForm, ContactFormMessage
 from product.models import Product, Category, Images, Comment
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def index(request):
@@ -15,9 +20,10 @@ def index(request):
     dayproducts = Product.objects.all()[:4]
     lastproducts = Product.objects.all().order_by('-id')[:4]
     randomproducts = Product.objects.all().order_by('?')[:4]
+    page = "home"
 
     context = {'setting': setting, 'page': 'home', 'sliderdata': sliderdata, 'category': category,
-               'dayproducts': dayproducts, 'lastproducts': lastproducts, 'randomproducts': randomproducts}
+               'dayproducts': dayproducts, 'lastproducts': lastproducts, 'randomproducts': randomproducts, 'page': page}
     return render(request, 'index.html', context)
 
 
@@ -25,12 +31,6 @@ def about(request):
     setting = Setting.objects.get(pk=1)
     context = {'setting': setting}
     return render(request, 'about.html', context)
-
-
-def references(request):
-    setting = Setting.objects.get(pk=1)
-    context = {'setting': setting}
-    return render(request, 'references.html', context)
 
 
 def contact(request):
@@ -79,13 +79,34 @@ def product_detail(request, id, slug):
 
 
 def product_search(request):
-    if request.method == 'POST':  # Check form post
+    if request.method == 'POST':  # Form post edildiyse
         form = SearchForm(request.POST)
         if form.is_valid():
             category = Category.objects.all()
-            query = form.cleaned_data['query']  # get form input data
-            products = Product.objects.filter(title__icontains=query)  # SELECT * FROM product WHERE title LIKE '%query%'
-            context = {'category': category, 'products': products, 'query': query}
+            query = request.POST['query']  # Formdan bilgiyi al
+            logger.info("query value is here {query}")
+            catid = request.POST['catid']  # Formdan bilgiyi al
+            logger.info("catid value is here {catid}")
+            if catid == 0:
+                products = Product.objects.filter(title__icontains=query)  # Select * from product where title like %query%
+            else:
+                products = Product.objects.filter(title__icontains=query, category_id=catid)
+            context = {'products': products, 'category': category, 'query': query}
             return render(request, 'products_search.html', context)
+    return HttpResponseRedirect('/')
 
-        return HttpResponseRedirect('/')
+
+def product_search_auto(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '')
+        product = Product.objects.filter(title__icontains=q)
+        results = []
+        for rs in product:
+            product_json = {}
+            product_json = rs.title
+            results.append(product_json)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)

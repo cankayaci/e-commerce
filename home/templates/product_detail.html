@@ -80,11 +80,15 @@
 							<p> {{ product.description }} </p>
 
 							<div class="product-btns">
-								<div class="qty-input">
-									<span class="text-uppercase">Quantity : </span>
-									<input class="input" type="number" min="0" max="{{ product.amount }}" value="1">
-								</div>
-								<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+								<form action="/order/addtoshopcart/{{ product.id }}" method="post">
+									{% csrf_token %}
+									<div class="qty-input">
+										<span class="text-uppercase">Quantity : </span>
+										<input class="input" name="quantity" type="number" min="1" max="{{ product.amount }}" value="1">
+									</div>
+									<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+								</form>
+
 								<div class="pull-right">
 									<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
 									<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
