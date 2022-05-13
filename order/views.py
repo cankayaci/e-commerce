@@ -65,6 +65,7 @@ def shopcart(request):
     context = {'category': category, 'shopcart': shopcart, 'total': total}
     return render(request, 'shopcart_products.html', context)
 
+
 @login_required(login_url='/login')
 def deletefromcart(request, id):
     ShopCart.objects.filter(id=id).delete()

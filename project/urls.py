@@ -24,17 +24,19 @@ from order import views as OrderViews
 urlpatterns = [
     path('', include('home.urls')),
     path('home/', include('home.urls')),
+    path('admin/', admin.site.urls),
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
     path('product/', include('product.urls')),
-    path('order/', include('order.urls')),
-    path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('category/<int:id>/<slug:slug>', views.category_products, name='category_products'),
     path('product/<int:id>/<slug:slug>', views.product_detail, name='product_detail'),
     path('search/', views.product_search, name='product_search'),
     path('search_auto/', views.product_search_auto, name='product_search_auto'),
+    path('order/', include('order.urls')),
     path('shopcart/', OrderViews.shopcart, name='shopcart'),
+    path('user/', include('user.urls')),
+
 ]
 
 if settings.DEBUG:  # new
