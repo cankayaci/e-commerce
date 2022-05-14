@@ -1,8 +1,8 @@
 {% extends 'homebase.html' %}
 
 {% block title %} Shop Cart {% endblock %}
-{% block keywords %} {{ categorydata.keywords }} {% endblock %}
-{% block description %} {{ categorydata.description }} {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+{% block description %} {{ setting.description }} {% endblock %}
 
 {% block head %}
 <link rel='shortcut icon' type='image/x-icon' href='{{setting.icon.url}}' />
@@ -78,7 +78,7 @@
 						</tfoot>
 					</table>
 					<div class="pull-right">
-						<button class="primary-btn">Place Order</button>
+						<a href="/order/orderproduct" class="primary-btn">Place Order</a>
 					</div>
 				</div>
 			</div>
