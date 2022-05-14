@@ -1,7 +1,7 @@
 {% load static %}
 
 <!-- HEADER -->
-<header>
+<header xmlns:border-radius="http://www.w3.org/1999/xhtml">
 	<!-- top Header -->
 	<div id="top-header">
 		<div class="container">
@@ -10,7 +10,7 @@
 				{% if messages %}
 					{% for message in messages %}
 						<div class="alert alert-{{ message.tags }}" role="alert">
-							{{ message }}
+							{{ message | safe }}
 						</div>
 					{% endfor %}
 				{% endif %}
@@ -101,23 +101,21 @@
 					<!-- Account -->
 					<li class="header-account dropdown default-dropdown">
 						{% if user.id is not None %}
-						<div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
-							<div class="header-btns-icon">
-								<i class="fa fa-user-o"></i>
+							<div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
+								<div class="header-btns-icon">
+									<img src="{{ request.session.userimage }}" style="height: 40px; border-radius: 30%">
+								</div>
+								<strong class="text-uppercase">{{ user.first_name }} <i class="fa fa-caret-down"></i></strong>
 							</div>
-							<strong class="text-uppercase">{{ user.first_name }} <i class="fa fa-caret-down"></i></strong>
-						</div>
 						{% else %}
-
-						<a href="#" class="text-uppercase">Login</a> / <a href="#" class="text-uppercase">Join</a>
+							<a href="/login" class="text-uppercase">Login</a> / <a href="/signup" class="text-uppercase">Sign Up</a>
 						{% endif %}
 						<ul class="custom-menu">
-							<li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
-							<li><a href="#"><i class="fa fa-heart-o"></i> My Wishlist</a></li>
-							<li><a href="#"><i class="fa fa-exchange"></i> Compare</a></li>
-							<li><a href="#"><i class="fa fa-check"></i> Checkout</a></li>
-							<li><a href="#"><i class="fa fa-unlock-alt"></i> Login</a></li>
-							<li><a href="#"><i class="fa fa-user-plus"></i> Create An Account</a></li>
+							<li><a href="/user"><i class="fa fa-user-o"></i> My Account </a></li>
+							<li><a href="/user/favorites"><i class="fa fa-heart-o"></i> My Favorites </a></li>
+							<li><a href="/user/orders"><i class="fa fa-exchange"></i> My Orders </a></li>
+							<li><a href="/user/comments"><i class="fa fa-check"></i> My Comments </a></li>
+							<li><a href="/logout"><i class="fa fa-unlock-alt"></i> Logout </a></li>
 						</ul>
 					</li>
 					<!-- /Account -->

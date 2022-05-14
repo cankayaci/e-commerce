@@ -20,6 +20,7 @@ from django.urls import path, include
 
 from home import views
 from order import views as OrderViews
+from user import views as UserViews
 
 urlpatterns = [
     path('', include('home.urls')),
@@ -36,7 +37,9 @@ urlpatterns = [
     path('order/', include('order.urls')),
     path('shopcart/', OrderViews.shopcart, name='shopcart'),
     path('user/', include('user.urls')),
-
+    path('login/', UserViews.login_form, name='login_form'),
+    path('logout/', UserViews.logout_func, name='logout_func'),
+    path('signup/', UserViews.signup_form, name='signup_form'),
 ]
 
 if settings.DEBUG:  # new
