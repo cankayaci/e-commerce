@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 
 <!-- HEADER -->
 <header xmlns:border-radius="http://www.w3.org/1999/xhtml">
@@ -6,7 +7,7 @@
 	<div id="top-header">
 		<div class="container">
 			<div class="pull-left">
-				<span> E-shop! </span>
+				<span>{%trans "CK SPORT" %}</span>
 				{% if messages %}
 					{% for message in messages %}
 						<div class="alert alert-{{ message.tags }}" role="alert">
@@ -17,9 +18,9 @@
 			</div>
 			<div class="pull-right">
 				<ul class="header-top-links">
-					<li><a href="#">Store</a></li>
-					<li><a href="#">Newsletter</a></li>
-					<li><a href="#">FAQ</a></li>
+					<li><a href="#">{%trans "Store" %}</a></li>
+					<li><a href="#">{%trans "Newsletter" %}</a></li>
+					<li><a href="{% url 'faq' %}">{%trans "FAQ" %}</a></li>
 					<li class="dropdown default-dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">ENG <i class="fa fa-caret-down"></i></a>
 						<ul class="custom-menu">
@@ -48,7 +49,7 @@
 			<div class="pull-left">
 				<!-- Logo -->
 				<div class="header-logo">
-					<a class="logo" href="#">
+					<a class="logo" href="/">
 						<img src="{% static 'img/logo.png'%}" alt="">
 					</a>
 				</div>
@@ -77,8 +78,9 @@
 						<input id="query" name="query" class="input search-input" type="text" placeholder="Enter your keyword">
 						<select  name="catid" class="input search-categories">
 							<option value="0">All Categories</option>
+							{% load myapptags %}
+							{% categorylist as category %}
 							{% load mptt_tags %}
-
 							{% recursetree category %}
 								{% if node.is_leaf_node %}
 									<option value="{{ node.id }}">{{ node.title }}</option>
@@ -121,17 +123,18 @@
 					<!-- /Account -->
 
 					<!-- Cart -->
-					<li class="header-cart dropdown default-dropdown">
-						<a href="/shopcart/">
-							<div class="header-btns-icon">
-								<i class="fa fa-shopping-cart"></i>
-								<span class="qty">3</span>
-							</div>
-							<strong class="text-uppercase">My Cart:</strong>
-							<br>
-							<span>35.20$</span>
-						</a>
-					</li>
+                    <li class="header-cart dropdown default-dropdown">
+                        <a href="{% url 'shopcart'%}" >
+                            <div class="header-btns-icon">
+                                <i class="fa fa-shopping-cart"></i>
+                                {% load myapptags %}
+                                {% shopcartcount user.id as count %}
+                                <span class="qty">{{ count }}</span>
+                            </div>
+                            <strong class="text-uppercase">My Cart:</strong>
+                            <br>
+                        </a>
+                    </li>
 					<!-- /Cart -->
 
 					<!-- Mobile nav toggle-->

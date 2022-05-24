@@ -32,14 +32,15 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('category/<int:id>/<slug:slug>', views.category_products, name='category_products'),
     path('product/<int:id>/<slug:slug>', views.product_detail, name='product_detail'),
-    path('search/', views.product_search, name='product_search'),
-    path('search_auto/', views.product_search_auto, name='product_search_auto'),
+    path('search/', views.search, name='search'),
+    path('search_auto/', views.search_auto, name='search_auto'),
     path('order/', include('order.urls')),
     path('shopcart/', OrderViews.shopcart, name='shopcart'),
     path('user/', include('user.urls')),
-    path('login/', UserViews.login_form, name='login_form'),
-    path('logout/', UserViews.logout_func, name='logout_func'),
-    path('signup/', UserViews.signup_form, name='signup_form'),
+    path('login/', UserViews.login_form, name='login'),
+    path('logout/', UserViews.logout_func, name='logout'),
+    path('signup/', UserViews.signup_form, name='signup'),
+    path('faq/', views.faq, name='faq'),
 ]
 
 if settings.DEBUG:  # new

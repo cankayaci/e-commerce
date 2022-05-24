@@ -6,7 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
-from home.models import Setting, ContactForm, ContactFormMessage
+from home.models import Setting, ContactForm, ContactFormMessage, FAQ
 from product.models import Product, Category, Images, Comment
 import logging
 
@@ -16,13 +16,13 @@ logger = logging.getLogger(__name__)
 def index(request):
     setting = Setting.objects.get(pk=1)
     sliderdata = Product.objects.all()[:4]
-    category = Category.objects.all()
+    # category = Category.objects.all()
     dayproducts = Product.objects.all()[:4]
     lastproducts = Product.objects.all().order_by('-id')[:4]
     randomproducts = Product.objects.all().order_by('?')[:4]
     page = "home"
 
-    context = {'setting': setting, 'page': 'home', 'sliderdata': sliderdata, 'category': category,
+    context = {'setting': setting, 'page': 'home', 'sliderdata': sliderdata,  # 'category': category,
                'dayproducts': dayproducts, 'lastproducts': lastproducts, 'randomproducts': randomproducts, 'page': page}
     return render(request, 'index.html', context)
 
@@ -78,7 +78,7 @@ def product_detail(request, id, slug):
     return render(request, 'product_detail.html', context)
 
 
-def product_search(request):
+def search(request):
     if request.method == 'POST':  # Form post edildiyse
         form = SearchForm(request.POST)
         if form.is_valid():
@@ -88,15 +88,16 @@ def product_search(request):
             catid = request.POST['catid']  # Formdan bilgiyi al
             logger.info("catid value is here {catid}")
             if catid == 0:
-                products = Product.objects.filter(title__icontains=query)  # Select * from product where title like %query%
+                products = Product.objects.filter(
+                    title__icontains=query)  # Select * from product where title like %query%
             else:
                 products = Product.objects.filter(title__icontains=query, category_id=catid)
             context = {'products': products, 'category': category, 'query': query}
-            return render(request, 'products_search.html', context)
+            return render(request, 'search_products.html', context)
     return HttpResponseRedirect('/')
 
 
-def product_search_auto(request):
+def search_auto(request):
     if request.is_ajax():
         q = request.GET.get('term', '')
         products = Product.objects.filter(title__icontains=q)
@@ -112,3 +113,9 @@ def product_search_auto(request):
     return HttpResponse(data, mimetype)
 
 
+def faq(request):
+    category = Category.objects.all()
+    current_user = request.user
+    faq = FAQ.objects.filter(status="True".order_by("ordernumber"))
+    context = {'category': category, 'faq': faq}
+    return render(request, 'faq.html', context)

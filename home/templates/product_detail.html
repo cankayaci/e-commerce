@@ -16,7 +16,7 @@
 	<div id="breadcrumb">
 		<div class="container">
 			<ul class="breadcrumb">
-				<li><a href="#">Home</a></li>
+				<li><a href="/">Home</a></li>
 				<li><a href="/category/{{ product.category.id }}/{{ product.category.slug }}">{{ product.category.title }}</a></li>
 				<li class="active">{{ product.title }}</li>
 			</ul>
@@ -63,16 +63,17 @@
 							<h3 class="product-price">${{ product.price }}</h3>
 							<div>
 								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-o empty"></i>
+									<i class="fa fa-star{% if product.avaregereview < 1%}-o empty{% endif%}"></i>
+									<i class="fa fa-star{% if product.avaregereview < 2%}-o empty{% endif%}"></i>
+									<i class="fa fa-star{% if product.avaregereview < 3%}-o empty{% endif%}"></i>
+									<i class="fa fa-star{% if product.avaregereview < 4%}-o empty{% endif%}"></i>
+									<i class="fa fa-star{% if product.avaregereview < 5%}-o empty{% endif%}"></i>
+									{{ product.avaregereview |stringformat:".2f"}}
 								</div>
-								<a href="#">3 Review(s) / Add Review</a>
+								<a href="#tab1"> {{ product.countreview}}  Review(s) / Add Review</a>
 							</div>
 							<p><strong>Availability:</strong> In Stock</p>
-							<p><strong>Brand:</strong> E-SHOP</p>
+							<p><strong>Brand:</strong> CK SPORT</p>
 							<p> {{ product.description }} </p>
 
 							<div class="product-btns">
@@ -97,7 +98,7 @@
 						<div class="product-tab">
 							<ul class="tab-nav">
 								<li class="active"><a data-toggle="tab" href="#tab1">Details</a></li>
-								<li><a data-toggle="tab" href="#tab2">Reviews</a></li>
+								<li><a data-toggle="tab" href="#tab2">Reviews ({{ product.countreview}})</a></li>
 							</ul>
 							<div class="tab-content">
 								<div id="tab1" class="tab-pane fade in active">
