@@ -28,7 +28,7 @@ class Setting(models.Model):
     facebook = models.CharField(blank=True, max_length=60)
     instagram = models.CharField(blank=True, max_length=60)
     twitter = models.CharField(blank=True, max_length=60)
-    aboutus: RichTextUploadingField = RichTextUploadingField(blank=True)
+    aboutus = RichTextUploadingField(blank=True)
     contact = RichTextUploadingField(blank=True)
     references = RichTextUploadingField(blank=True)
     status = models.CharField(max_length=10, choices=STATUS)
@@ -77,7 +77,7 @@ class FAQ(models.Model):
         ('False', 'False'),
     )
     ordernumber = models.IntegerField()
-    question = models.CharField(max_length=250)
+    question = models.CharField(max_length=260)
     answer = RichTextUploadingField()
     status = models.CharField(max_length=10, choices=STATUS)
     create_at = models.DateTimeField(auto_now_add=True)

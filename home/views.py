@@ -115,7 +115,6 @@ def search_auto(request):
 
 def faq(request):
     category = Category.objects.all()
-    current_user = request.user
-    faq = FAQ.objects.filter(status="True".order_by("ordernumber"))
+    faq = FAQ.objects.filter(status='True').order_by("ordernumber")
     context = {'category': category, 'faq': faq}
     return render(request, 'faq.html', context)
